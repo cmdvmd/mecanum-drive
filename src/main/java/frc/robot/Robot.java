@@ -91,17 +91,18 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    double leftStickX = joy.getRawAxis(0);
-    double leftStickY = joy.getRawAxis(1);
+    /*
+     * Probably does not work lol
+     */
 
-    double angle = Math.atan2(leftStickY, leftStickX) - Math.PI / 4;
-    double r = Math.hypot(leftStickX, leftStickY);
-    double rotation = joy.getRawAxis(4);
+    double x = joy.getRawAxis(0)/3;
+    double y = joy.getRawAxis(1)/3;
+    double r = joy.getRawAxis(4)/3;
 
-    frontLeft.set(ControlMode.PercentOutput, r * Math.cos(angle) + rotation);
-    frontRight.set(ControlMode.PercentOutput, r * Math.sin(angle) - rotation);
-    backLeft.set(ControlMode.PercentOutput, r * Math.sin(angle) + rotation);
-    backRight.set(ControlMode.PercentOutput, r * Math.cos(angle) - rotation);
+    frontLeft.set(ControlMode.PercentOutput, y + x + r);
+    frontRight.set(ControlMode.PercentOutput, y - x - r);
+    backLeft.set(ControlMode.PercentOutput, y - x + r);
+    backRight.set(ControlMode.PercentOutput, y + x - r);
   }
 
   /** This function is called once when the robot is disabled. */
