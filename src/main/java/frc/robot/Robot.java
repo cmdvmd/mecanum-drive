@@ -95,10 +95,26 @@ public class Robot extends TimedRobot {
      * Probably does not work lol
      */
 
-    double x = joy.getRawAxis(0)/3;
-    double y = joy.getRawAxis(1)/3;
-    double r = joy.getRawAxis(4)/3;
+    // Find axes
+    double x = joy.getRawAxis(0);
+    double y = joy.getRawAxis(1);
+    double r = joy.getRawAxis(4);
 
+    // Calculate denominator based on number of axes
+    int denominator = 0;
+    
+    for (double input : new double[]{x, y, r}) {
+      input += (input != 0) ? 1 : 0;
+    }
+
+    denominator = (denominator != 0) ? denominator : 1;
+    
+    // Calculate proportion of power from each axis
+    x /= denominator;
+    y /= denominator;
+    r /= denominator;
+
+    // Set power to each Talon
     frontLeft.set(ControlMode.PercentOutput, y + x + r);
     frontRight.set(ControlMode.PercentOutput, y - x - r);
     backLeft.set(ControlMode.PercentOutput, y - x + r);
